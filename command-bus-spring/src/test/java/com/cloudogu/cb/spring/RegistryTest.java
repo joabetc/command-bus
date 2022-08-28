@@ -23,9 +23,11 @@
  */
 package com.cloudogu.cb.spring;
 
+import com.cloudogu.cb.Command;
 import com.cloudogu.cb.CommandHandler;
 import com.cloudogu.cb.HelloCommand;
 import com.cloudogu.cb.HelloCommandHandler;
+import com.cloudogu.handler.Handler;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -55,7 +57,7 @@ public class RegistryTest {
     when(applicationContext.getBean(HelloCommandHandler.class)).thenReturn(helloCommandHandler);
 
     Registry registry = new Registry(applicationContext);
-    CommandHandler<String, HelloCommand> handler = registry.get(HelloCommand.class);
+    CommandHandler<?, Command<?>> handler = registry.get(HelloCommand.class);
 
     assertThat(handler).isInstanceOf(HelloCommandHandler.class);
   }

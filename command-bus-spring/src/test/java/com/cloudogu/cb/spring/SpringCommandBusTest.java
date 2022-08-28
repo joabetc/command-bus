@@ -23,16 +23,17 @@
  */
 package com.cloudogu.cb.spring;
 
+import com.cloudogu.cb.Command;
 import com.cloudogu.cb.CommandHandler;
 import com.cloudogu.cb.HelloCommand;
+import com.cloudogu.cb.HelloCommandHandler;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class SpringCommandBusTest {
@@ -41,20 +42,18 @@ public class SpringCommandBusTest {
   private Registry registry;
 
   @Mock
-  private CommandHandler<String, HelloCommand> handler;
+  private HelloCommandHandler handler;
 
   @InjectMocks
   private SpringCommandBus commandBus;
 
   @Test
   public void execute() {
-    when(registry.get(HelloCommand.class)).thenReturn(handler);
+    doReturn(handler).when(registry).get(HelloCommand.class);
 
     HelloCommand command = new HelloCommand("bob");
     commandBus.execute(command);
 
     verify(handler).handle(command);
   }
-
-
 }
