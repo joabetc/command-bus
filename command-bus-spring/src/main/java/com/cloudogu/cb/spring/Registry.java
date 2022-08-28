@@ -25,6 +25,8 @@ package com.cloudogu.cb.spring;
 
 import com.cloudogu.cb.Command;
 import com.cloudogu.cb.CommandHandler;
+
+import com.cloudogu.handler.HandlerRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.GenericTypeResolver;
@@ -36,9 +38,7 @@ import java.util.Map;
  * Registry holds the mapping between a command and its handler. The registry should always be injected, by the spring
  * framework.
  */
-public class Registry {
-
-  private Map<Class<? extends Command>, CommandProvider> providerMap = new HashMap<>();
+class Registry extends HandlerRegistry<Command<?>, CommandHandler<?, Command<?>>, CommandProvider<CommandHandler<?, Command<?>>>> {
 
   @Autowired
   public Registry(ApplicationContext applicationContext) {
@@ -48,16 +48,10 @@ public class Registry {
     }
   }
 
-  private void register( ApplicationContext applicationContext, String name ){
+  private void register(ApplicationContext applicationContext, String name){
     Class<CommandHandler<?,?>> handlerClass = (Class<CommandHandler<?,?>>) applicationContext.getType(name);
     Class<?>[] generics = GenericTypeResolver.resolveTypeArguments(handlerClass, CommandHandler.class);
     Class<? extends Command> commandType = (Class<? extends Command>) generics[1];
-    providerMap.put(commandType, new CommandProvider(applicationContext, handlerClass));
+    providerMap.put((Class<? extends Command<?>>) commandType, new CommandProvider(applicationContext, handlerClass));
   }
-
-  @SuppressWarnings("unchecked")
-  <R, C extends Command<R>> CommandHandler<R,C> get(Class<C> commandClass) {
-    return providerMap.get(commandClass).get();
-  }
-
 }
