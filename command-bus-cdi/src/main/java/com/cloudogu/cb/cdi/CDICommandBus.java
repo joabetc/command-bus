@@ -26,6 +26,7 @@ package com.cloudogu.cb.cdi;
 import com.cloudogu.cb.Command;
 import com.cloudogu.cb.CommandBus;
 import com.cloudogu.cb.CommandHandler;
+import com.cloudogu.handler.CanBeHandled;
 
 import javax.enterprise.inject.Alternative;
 import javax.inject.Inject;
@@ -50,8 +51,8 @@ public class CDICommandBus implements CommandBus {
   }
 
   @Override
-  public <R, C extends Command<R>> R execute(C command) {
-    CommandHandler<R, C> commandHandler = (CommandHandler<R, C>) registry.get(command.getClass());
-    return commandHandler.handle(command);
+  public <R> R execute(Command<?> action) {
+    CommandHandler<Object, Command<Object>> commandHandler = registry.get(action.getClass());
+    return (R) commandHandler.handle((Command<Object>) action);
   }
 }
