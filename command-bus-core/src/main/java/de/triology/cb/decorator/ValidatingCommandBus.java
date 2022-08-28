@@ -25,6 +25,7 @@ package com.cloudogu.cb.decorator;
 
 import com.cloudogu.cb.Command;
 import com.cloudogu.cb.CommandBus;
+import com.cloudogu.handler.CanBeHandled;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
@@ -51,11 +52,11 @@ public class ValidatingCommandBus implements CommandBus {
   }
 
   @Override
-  public <R, C extends Command<R>> R execute(C command) {
-    Set<ConstraintViolation<C>> violations = validator.validate(command);
+  public <R> R execute(Command<?> action) {
+    Set<ConstraintViolation<CanBeHandled>> violations = validator.validate(action);
     if (!violations.isEmpty()) {
       throw new ConstraintViolationException(violations);
     }
-    return decorated.execute(command);
+    return decorated.execute(action);
   }
 }

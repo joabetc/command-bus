@@ -25,6 +25,7 @@ package com.cloudogu.cb.decorator;
 
 import com.cloudogu.cb.Command;
 import com.cloudogu.cb.CommandBus;
+import com.cloudogu.handler.CanBeHandled;
 import io.micrometer.core.instrument.Timer;
 
 import java.time.Clock;
@@ -82,13 +83,13 @@ public class MicrometerTimingCommandBus implements CommandBus {
   }
 
   @Override
-  public <R, C extends Command<R>> R execute(C command) {
-    Timer timer = timers.computeIfAbsent(command.getClass(), timerFactory::create);
+  public <R> R execute(Command<?> action) {
+    Timer timer = timers.computeIfAbsent((Class<? extends Command>) action.getClass(), timerFactory::create);
 
     Instant now = Instant.now(clock);
-    R result = decorated.execute(command);
+    Object result = decorated.execute(action);
     timer.record(Duration.between(now, Instant.now(clock)));
 
-    return result;
+    return (R) result;
   }
 }

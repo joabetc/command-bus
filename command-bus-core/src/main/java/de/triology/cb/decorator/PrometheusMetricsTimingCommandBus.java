@@ -25,12 +25,14 @@ package com.cloudogu.cb.decorator;
 
 import com.cloudogu.cb.Command;
 import com.cloudogu.cb.CommandBus;
+import com.cloudogu.handler.CanBeHandled;
 import io.prometheus.client.Histogram;
 
 /**
  * Command bus decorator counting the executed commands using a Prometheus {@link Histogram}
  */
 public class PrometheusMetricsTimingCommandBus implements CommandBus {
+
   private CommandBus decorated;
   private Histogram histogram;
 
@@ -50,15 +52,15 @@ public class PrometheusMetricsTimingCommandBus implements CommandBus {
    * Delegates the provided command to the decorated command bus and times the command's execution using it's
    * classname as a label
    *
-   * @param command command object
+   * @param action command object
    * @param <R> type of return value
-   * @param <C> type of command
+   * @param <?> type of command
    */
   @Override
-  public <R, C extends Command<R>> R execute(C command) {
-    Histogram.Timer commandTimer = histogram.labels(command.getClass().getSimpleName()).startTimer();
-    R result = decorated.execute(command);
+  public <R> R execute(Command<?> action) {
+    Histogram.Timer commandTimer = histogram.labels(action.getClass().getSimpleName()).startTimer();
+    Object result = decorated.execute(action);
     commandTimer.observeDuration();
-    return result;
+    return (R) result;
   }
 }

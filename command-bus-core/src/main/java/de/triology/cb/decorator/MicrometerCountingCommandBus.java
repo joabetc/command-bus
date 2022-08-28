@@ -25,6 +25,7 @@ package com.cloudogu.cb.decorator;
 
 import com.cloudogu.cb.Command;
 import com.cloudogu.cb.CommandBus;
+import com.cloudogu.handler.CanBeHandled;
 import io.micrometer.core.instrument.Counter;
 
 import java.util.Map;
@@ -65,8 +66,8 @@ public class MicrometerCountingCommandBus implements CommandBus {
   }
 
   @Override
-  public <R, C extends Command<R>> R execute(C command) {
-    counters.computeIfAbsent(command.getClass(), counterFactory::create).increment();
-    return decorated.execute(command);
+  public <R> R execute(Command<?> action) {
+    counters.computeIfAbsent((Class<? extends Command>) action.getClass(), counterFactory::create).increment();
+    return decorated.execute(action);
   }
 }
