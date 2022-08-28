@@ -28,6 +28,8 @@ import com.cloudogu.cb.CommandBus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Timer;
+
 /**
  * Command bus decorator which logs every execution of a command with its elapsed time.
  */
@@ -47,14 +49,14 @@ public class LoggingCommandBus implements CommandBus {
   }
 
   @Override
-  public <R, C extends Command<R>> R execute(C command) {
-    LOG.info("start command {}", command.getClass().getSimpleName());
+  public <R> R execute(Command<?> action) {
+    LOG.info("start command {}", action.getClass().getSimpleName());
 
     Timer timer = new Timer();
     try {
-      return decorated.execute(command);
+      return decorated.execute(action);
     } finally {
-      LOG.info("finished command {} in {}", command.getClass().getSimpleName(), timer);
+      LOG.info("finished command {} in {}", action.getClass().getSimpleName(), timer);
     }
   }
 }
