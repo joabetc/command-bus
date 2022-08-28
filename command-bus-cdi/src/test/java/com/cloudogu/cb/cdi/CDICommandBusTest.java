@@ -33,8 +33,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 /**
  * Tests {@link CDICommandBus}.
@@ -53,7 +52,7 @@ public class CDICommandBusTest {
 
   @Test
   public void execute() {
-    when(registry.get(HelloCommand.class)).thenReturn(handler);
+    doReturn(handler).when(registry).get(HelloCommand.class);
 
     Command<?> command = new HelloCommand("joe");
     commandBus.execute(command);
