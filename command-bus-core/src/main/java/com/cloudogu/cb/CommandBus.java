@@ -23,18 +23,10 @@
  */
 package com.cloudogu.cb;
 
+import com.cloudogu.handler.Bus;
+
 /**
  * The Command-Bus is able to execute commands, by passing the command object to its appropriate handler.
  */
-public interface CommandBus {
-
-  /**
-   * Searches the handler and passes the command to it.
-   *
-   * @param command command object
-   * @param <R> type of return value
-   * @param <C> type of command
-   */
-  <R,C extends Command<R>> R execute(C command);
-
+public interface CommandBus extends Bus<Command<?>> {
 }
