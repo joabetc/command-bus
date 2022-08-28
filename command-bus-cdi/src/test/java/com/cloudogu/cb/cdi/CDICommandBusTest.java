@@ -23,8 +23,10 @@
  */
 package com.cloudogu.cb.cdi;
 
+import com.cloudogu.cb.Command;
 import com.cloudogu.cb.CommandHandler;
 import com.cloudogu.cb.HelloCommand;
+import com.cloudogu.handler.CanBeHandled;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -44,7 +46,7 @@ public class CDICommandBusTest {
   private Registry registry;
 
   @Mock
-  private CommandHandler<String, HelloCommand> handler;
+  private CommandHandler<Object, Command<Object>> handler;
 
   @InjectMocks
   private CDICommandBus commandBus;
@@ -53,10 +55,10 @@ public class CDICommandBusTest {
   public void execute() {
     when(registry.get(HelloCommand.class)).thenReturn(handler);
 
-    HelloCommand command = new HelloCommand("joe");
+    Command<?> command = new HelloCommand("joe");
     commandBus.execute(command);
 
-    verify(handler).handle(command);
+    verify(handler).handle((Command<Object>) command);
   }
 
 }
