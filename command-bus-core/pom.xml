@@ -72,6 +72,12 @@
       <version>3.0.1-b11</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>com.cloudogu.cb</groupId>
+      <artifactId>handler-bus-core</artifactId>
+      <version>1.0.0-SNAPSHOT</version>
+      <scope>compile</scope>
+    </dependency>
 
   </dependencies>
 
