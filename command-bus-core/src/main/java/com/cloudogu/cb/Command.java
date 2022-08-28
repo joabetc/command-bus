@@ -23,11 +23,12 @@
  */
 package com.cloudogu.cb;
 
+import com.cloudogu.handler.CanBeHandled;
+
 /**
  * Marker interface for commands.
  * @param <R> type of return value
  */
 @SuppressWarnings({"unused", "squid:S2326" }) // Return value is used by CommandBus
-public interface Command<R> {
-
+public interface Command<R> extends CanBeHandled {
 }
