@@ -26,7 +26,6 @@ package com.cloudogu.cb.cdi;
 import com.cloudogu.cb.Command;
 import com.cloudogu.cb.CommandBus;
 import com.cloudogu.cb.CommandHandler;
-import com.cloudogu.handler.CanBeHandled;
 
 import javax.enterprise.inject.Alternative;
 import javax.inject.Inject;

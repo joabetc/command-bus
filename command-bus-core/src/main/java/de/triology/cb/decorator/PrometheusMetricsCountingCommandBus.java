@@ -25,7 +25,6 @@ package com.cloudogu.cb.decorator;
 
 import com.cloudogu.cb.Command;
 import com.cloudogu.cb.CommandBus;
-import com.cloudogu.handler.CanBeHandled;
 import io.prometheus.client.Counter;
 
 /**
@@ -33,8 +32,8 @@ import io.prometheus.client.Counter;
  */
 public class PrometheusMetricsCountingCommandBus implements CommandBus {
 
-  private CommandBus decorated;
-  private Counter counter;
+  private final CommandBus decorated;
+  private final Counter counter;
 
   /**
    * Creates a new PrometheusMetricsCountingCommandBus
@@ -53,12 +52,11 @@ public class PrometheusMetricsCountingCommandBus implements CommandBus {
    *
    * @param action command object
    * @param <R> type of return value
-   * @param <?> type of command
    */
   @Override
   public <R> R execute(Command<?> action) {
-    Object result = decorated.execute(action);
+    R result = decorated.execute(action);
     counter.labels(action.getClass().getSimpleName()).inc();
-    return (R) result;
+    return result;
   }
 }

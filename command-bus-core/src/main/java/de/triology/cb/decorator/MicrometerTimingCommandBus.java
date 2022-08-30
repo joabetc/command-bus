@@ -25,7 +25,6 @@ package com.cloudogu.cb.decorator;
 
 import com.cloudogu.cb.Command;
 import com.cloudogu.cb.CommandBus;
-import com.cloudogu.handler.CanBeHandled;
 import io.micrometer.core.instrument.Timer;
 
 import java.time.Clock;
@@ -50,14 +49,14 @@ public class MicrometerTimingCommandBus implements CommandBus {
      * @param command class of command
      * @return Micrometer timer
      */
-    Timer create(Class<? extends Command> command);
+    Timer create(Class<? extends Command<?>> command);
   }
 
   private final CommandBus decorated;
   private final TimerFactory timerFactory;
   private final Clock clock;
 
-  private final Map<Class<? extends Command>, Timer> timers = new ConcurrentHashMap<>();
+  private final Map<Class<? extends Command<?>>, Timer> timers = new ConcurrentHashMap<>();
 
   /**
    * Creates a new {@link MicrometerTimingCommandBus}.
@@ -84,12 +83,12 @@ public class MicrometerTimingCommandBus implements CommandBus {
 
   @Override
   public <R> R execute(Command<?> action) {
-    Timer timer = timers.computeIfAbsent((Class<? extends Command>) action.getClass(), timerFactory::create);
+    Timer timer = timers.computeIfAbsent(action.getClass(), timerFactory::create);
 
     Instant now = Instant.now(clock);
-    Object result = decorated.execute(action);
+    R result = decorated.execute(action);
     timer.record(Duration.between(now, Instant.now(clock)));
 
-    return (R) result;
+    return result;
   }
 }

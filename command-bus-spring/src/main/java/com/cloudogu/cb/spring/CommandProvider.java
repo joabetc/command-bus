@@ -27,14 +27,11 @@ import com.cloudogu.cb.CommandHandler;
 import com.cloudogu.handler.HandlerProvider;
 import org.springframework.context.ApplicationContext;
 
-import javax.inject.Provider;
-
 /**
  * CommandProvider creates a handler with enabled spring injection.
  *
  * @param <H> type of handler
  */
-@SuppressWarnings("unchecked")
 class CommandProvider<H extends CommandHandler<?, ?>> extends HandlerProvider<H> {
 
   private final ApplicationContext applicationContext;

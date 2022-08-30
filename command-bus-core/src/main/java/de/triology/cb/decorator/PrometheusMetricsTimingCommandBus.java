@@ -25,7 +25,6 @@ package com.cloudogu.cb.decorator;
 
 import com.cloudogu.cb.Command;
 import com.cloudogu.cb.CommandBus;
-import com.cloudogu.handler.CanBeHandled;
 import io.prometheus.client.Histogram;
 
 /**
@@ -33,8 +32,8 @@ import io.prometheus.client.Histogram;
  */
 public class PrometheusMetricsTimingCommandBus implements CommandBus {
 
-  private CommandBus decorated;
-  private Histogram histogram;
+  private final CommandBus decorated;
+  private final Histogram histogram;
 
 
   /**
@@ -54,13 +53,12 @@ public class PrometheusMetricsTimingCommandBus implements CommandBus {
    *
    * @param action command object
    * @param <R> type of return value
-   * @param <?> type of command
    */
   @Override
   public <R> R execute(Command<?> action) {
     Histogram.Timer commandTimer = histogram.labels(action.getClass().getSimpleName()).startTimer();
-    Object result = decorated.execute(action);
+    R result = decorated.execute(action);
     commandTimer.observeDuration();
-    return (R) result;
+    return result;
   }
 }

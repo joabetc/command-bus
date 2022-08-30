@@ -26,7 +26,6 @@ package com.cloudogu.cb.spring;
 import com.cloudogu.cb.Command;
 import com.cloudogu.cb.CommandBus;
 import com.cloudogu.cb.CommandHandler;
-import com.cloudogu.handler.CanBeHandled;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -46,6 +45,7 @@ public class SpringCommandBus implements CommandBus {
     this.registry = registry;
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public <R> R execute(Command<?> action) {
     CommandHandler<?, Command<?>> commandHandler = registry.get((Class<Command<?>>) action.getClass());

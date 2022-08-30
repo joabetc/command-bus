@@ -24,6 +24,7 @@
 package com.cloudogu.cb.decorator;
 
 import java.util.concurrent.TimeUnit;
+import com.cloudogu.cb.decorator.DurationFormatter;
 
 /**
  * Timer measures elapsed time in nanoseconds. The timer captures the time in nanoseconds during the creation. To print
@@ -31,7 +32,7 @@ import java.util.concurrent.TimeUnit;
  */
 class Timer {
 
-  private long startedAt;
+  private final long startedAt;
 
   /**
    * Creates a new timer and captures the start date.

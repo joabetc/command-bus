@@ -31,9 +31,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.GenericTypeResolver;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * Registry holds the mapping between a command and its handler. The registry should always be injected, by the spring
  * framework.
@@ -48,10 +45,11 @@ class Registry extends HandlerRegistry<Command<?>, CommandHandler<?, Command<?>>
     }
   }
 
+  @SuppressWarnings("unchecked")
   private void register(ApplicationContext applicationContext, String name){
     Class<CommandHandler<?,?>> handlerClass = (Class<CommandHandler<?,?>>) applicationContext.getType(name);
     Class<?>[] generics = GenericTypeResolver.resolveTypeArguments(handlerClass, CommandHandler.class);
-    Class<? extends Command> commandType = (Class<? extends Command>) generics[1];
-    providerMap.put((Class<? extends Command<?>>) commandType, new CommandProvider(applicationContext, handlerClass));
+    Class<? extends Command<?>> commandType = (Class<? extends Command<?>>) generics[1];
+    providerMap.put(commandType, new CommandProvider(applicationContext, handlerClass));
   }
 }
