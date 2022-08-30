@@ -65,9 +65,10 @@ public class MicrometerCountingCommandBus implements CommandBus {
     this.counterFactory = counterFactory;
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public <R> R execute(Command<?> action) {
-    counters.computeIfAbsent(action.getClass(), counterFactory::create).increment();
+    counters.computeIfAbsent((Class<? extends Command<?>>) action.getClass(), counterFactory::create).increment();
     return decorated.execute(action);
   }
 }
