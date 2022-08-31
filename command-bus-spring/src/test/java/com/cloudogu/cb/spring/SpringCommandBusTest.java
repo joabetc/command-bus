@@ -49,7 +49,7 @@ public class SpringCommandBusTest {
   public void execute() {
     doReturn(handler).when(registry).get(HelloCommand.class);
 
-    HelloCommand command = new HelloCommand("bob");
+    final HelloCommand command = new HelloCommand("bob");
     commandBus.execute(command);
 
     verify(handler).handle(command);

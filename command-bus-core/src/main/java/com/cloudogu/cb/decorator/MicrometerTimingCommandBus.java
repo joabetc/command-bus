@@ -84,10 +84,10 @@ public class MicrometerTimingCommandBus implements CommandBus {
   @SuppressWarnings("unchecked")
   @Override
   public <R> R execute(Command<?> action) {
-    Timer timer = timers.computeIfAbsent((Class<? extends Command<?>>) action.getClass(), timerFactory::create);
+    final Timer timer = timers.computeIfAbsent((Class<? extends Command<?>>) action.getClass(), timerFactory::create);
 
-    Instant now = Instant.now(clock);
-    R result = decorated.execute(action);
+    final Instant now = Instant.now(clock);
+    final R result = decorated.execute(action);
     timer.record(Duration.between(now, Instant.now(clock)));
 
     return result;

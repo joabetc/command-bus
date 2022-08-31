@@ -53,7 +53,7 @@ public class CDICommandBusTest {
   public void execute() {
     doReturn(handler).when(registry).get(HelloCommand.class);
 
-    Command<String> command = new HelloCommand("joe");
+    final Command<String> command = new HelloCommand("joe");
     commandBus.execute(command);
 
     verify(handler).handle(any(HelloCommand.class));

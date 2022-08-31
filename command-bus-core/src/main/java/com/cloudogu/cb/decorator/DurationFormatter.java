@@ -45,7 +45,7 @@ final class DurationFormatter {
    * @return formatted duration
    */
   public static String format(long duration, TimeUnit sourceUnit) {
-    long durationInNanoSeconds = convertToNanoSeconds(duration, sourceUnit);
+    final long durationInNanoSeconds = convertToNanoSeconds(duration, sourceUnit);
     return formatNanoSeconds(durationInNanoSeconds);
   }
 
@@ -54,10 +54,10 @@ final class DurationFormatter {
   }
 
   private static String formatNanoSeconds(long durationInNanoSeconds) {
-    TimeUnit targetUnit = chooseUnit(durationInNanoSeconds);
-    double value = (double) durationInNanoSeconds / NANOSECONDS.convert(1, targetUnit);
+    final TimeUnit targetUnit = chooseUnit(durationInNanoSeconds);
+    final double value = (double) durationInNanoSeconds / NANOSECONDS.convert(1, targetUnit);
 
-    NumberFormat formatter = NumberFormat.getInstance(Locale.ENGLISH);
+    final NumberFormat formatter = NumberFormat.getInstance(Locale.ENGLISH);
     return formatter.format(value) + abbreviate(targetUnit);
   }
 

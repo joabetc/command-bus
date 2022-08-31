@@ -60,7 +60,7 @@ public class PrometheusMetricsTimingCommandBusTest {
 
   @Test
   public void execute() {
-    EchoCommand echoCommand = new EchoCommand("July");
+    final EchoCommand echoCommand = new EchoCommand("July");
     decoratedCommandBus.execute(echoCommand);
     verify(histogram).labels(EchoCommand.class.getSimpleName());
     verify(commandBus).execute(echoCommand);

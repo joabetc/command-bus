@@ -48,16 +48,16 @@ public class RegistryTest {
 
   @Test
   public void testRegistration() {
-    String[] commandHandlers = new String[]{"helloCommandHandler"};
+    final String[] commandHandlers = new String[]{"helloCommandHandler"};
     when(applicationContext.getBeanNamesForType(CommandHandler.class)).thenReturn(commandHandlers);
 
-    Class<HelloCommandHandler> type = HelloCommandHandler.class;
+    final Class<HelloCommandHandler> type = HelloCommandHandler.class;
     doReturn(type).when(applicationContext).getType("helloCommandHandler");
 
     when(applicationContext.getBean(HelloCommandHandler.class)).thenReturn(helloCommandHandler);
 
-    Registry registry = new Registry(applicationContext);
-    CommandHandler<?, Command<?>> handler = registry.get(HelloCommand.class);
+    final Registry registry = new Registry(applicationContext);
+    final CommandHandler<?, Command<?>> handler = registry.get(HelloCommand.class);
 
     assertThat(handler).isInstanceOf(HelloCommandHandler.class);
   }

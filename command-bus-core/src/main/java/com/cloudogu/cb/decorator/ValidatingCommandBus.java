@@ -53,7 +53,7 @@ public class ValidatingCommandBus implements CommandBus {
 
   @Override
   public <R> R execute(Command<?> action) {
-    Set<ConstraintViolation<CanBeHandled>> violations = validator.validate(action);
+    final Set<ConstraintViolation<CanBeHandled>> violations = validator.validate(action);
     if (!violations.isEmpty()) {
       throw new ConstraintViolationException(violations);
     }

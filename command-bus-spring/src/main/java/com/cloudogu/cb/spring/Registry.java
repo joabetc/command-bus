@@ -39,17 +39,17 @@ class Registry extends HandlerRegistry<Command<?>, CommandHandler<?, Command<?>>
 
   @Autowired
   public Registry(ApplicationContext applicationContext) {
-    String[] names = applicationContext.getBeanNamesForType(CommandHandler.class);
-    for (String name : names) {
+    final String[] names = applicationContext.getBeanNamesForType(CommandHandler.class);
+    for (final String name : names) {
       register(applicationContext, name);
     }
   }
 
   @SuppressWarnings("unchecked")
   private void register(ApplicationContext applicationContext, String name){
-    Class<CommandHandler<?,?>> handlerClass = (Class<CommandHandler<?,?>>) applicationContext.getType(name);
-    Class<?>[] generics = GenericTypeResolver.resolveTypeArguments(handlerClass, CommandHandler.class);
-    Class<? extends Command<?>> commandType = (Class<? extends Command<?>>) generics[1];
+    final Class<CommandHandler<?,?>> handlerClass = (Class<CommandHandler<?,?>>) applicationContext.getType(name);
+    final Class<?>[] generics = GenericTypeResolver.resolveTypeArguments(handlerClass, CommandHandler.class);
+    final Class<? extends Command<?>> commandType = (Class<? extends Command<?>>) generics[1];
     providerMap.put(commandType, new CommandProvider(applicationContext, handlerClass));
   }
 }

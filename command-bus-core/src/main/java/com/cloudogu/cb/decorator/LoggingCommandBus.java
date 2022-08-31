@@ -52,7 +52,7 @@ public class LoggingCommandBus implements CommandBus {
   public <R> R execute(Command<?> action) {
     LOG.info("start command {}", action.getClass().getSimpleName());
 
-    Timer timer = new Timer();
+    final Timer timer = new Timer();
     try {
       return decorated.execute(action);
     } finally {

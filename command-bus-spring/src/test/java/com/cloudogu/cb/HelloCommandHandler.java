@@ -36,7 +36,7 @@ public class HelloCommandHandler implements CommandHandler<String, HelloCommand>
 
   @Override
   public String handle(HelloCommand command) {
-    String message = "hello " + command.getName();
+    final String message = "hello " + command.getName();
     if (messageCollector != null) {
       messageCollector.add(message);
     }

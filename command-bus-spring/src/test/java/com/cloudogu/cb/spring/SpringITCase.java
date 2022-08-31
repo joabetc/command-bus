@@ -57,8 +57,8 @@ public class SpringITCase {
 
   @Test
   public void execute() {
-    String actualStringReturnValue = commandBus.execute(new HelloCommand("hans"));
-    Void actualVoidReturnValue = commandBus.execute(new ByeCommand("hans"));
+    final String actualStringReturnValue = commandBus.execute(new HelloCommand("hans"));
+    final Void actualVoidReturnValue = commandBus.execute(new ByeCommand("hans"));
 
     Assertions.assertThat(messageCollector.getMessages()).contains("hello hans", "bye hans");
 

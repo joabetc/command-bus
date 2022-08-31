@@ -55,7 +55,7 @@ public class PrometheusMetricsCountingCommandBus implements CommandBus {
    */
   @Override
   public <R> R execute(Command<?> action) {
-    R result = decorated.execute(action);
+    final R result = decorated.execute(action);
     counter.labels(action.getClass().getSimpleName()).inc();
     return result;
   }

@@ -49,11 +49,11 @@ public class CDIExtension implements Extension {
    * @param <H> handler type
    */
   public <H extends CommandHandler<?, ?>> void captureCommandHandlers(@Observes ProcessInjectionTarget<H> target) {
-    Class<H> handler = target.getAnnotatedType().getJavaClass();
-    for ( Type type : target.getAnnotatedType().getTypeClosure() ) {
+    final Class<H> handler = target.getAnnotatedType().getJavaClass();
+    for (final Type type : target.getAnnotatedType().getTypeClosure() ) {
       if (type instanceof ParameterizedType) {
-        ParameterizedType parameterizedType = (ParameterizedType) type;
-        Type genericParameterType = parameterizedType.getActualTypeArguments()[1];
+        final ParameterizedType parameterizedType = (ParameterizedType) type;
+        final Type genericParameterType = parameterizedType.getActualTypeArguments()[1];
         if (genericParameterType instanceof Class) {
           register((Class<? extends Command<?>>) genericParameterType, handler);
         }
@@ -67,7 +67,7 @@ public class CDIExtension implements Extension {
    * @param beanManager cdi bean manager
    */
   public void register(@Observes AfterDeploymentValidation event, final BeanManager beanManager) {
-    Registry registry = getRegistry(beanManager);
+    final Registry registry = getRegistry(beanManager);
     commandHandlers.forEach((commandClass, handlerClass) ->
                               registry.register(commandClass, new CommandProvider<>(beanManager, handlerClass)));
   }
@@ -77,8 +77,8 @@ public class CDIExtension implements Extension {
   }
 
   private Registry getRegistry(BeanManager beanManager) {
-    Bean<Registry> registryBean = (Bean<Registry>) beanManager.getBeans(Registry.class).iterator().next();
-    CreationalContext<Registry> context = beanManager.createCreationalContext(registryBean);
+    final Bean<Registry> registryBean = (Bean<Registry>) beanManager.getBeans(Registry.class).iterator().next();
+    final CreationalContext<Registry> context = beanManager.createCreationalContext(registryBean);
     return (Registry) beanManager.getReference(registryBean, Registry.class, context);
   }
 }

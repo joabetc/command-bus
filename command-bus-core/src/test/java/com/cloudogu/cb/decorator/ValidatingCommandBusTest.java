@@ -67,7 +67,7 @@ public class ValidatingCommandBusTest {
 
   @Test
   public void shouldCallDecorated() {
-    SampleCommand command = new SampleCommand("valid");
+    final SampleCommand command = new SampleCommand("valid");
     decoratedCommandBus.execute(command);
     verify(commandBus).execute(command);
   }

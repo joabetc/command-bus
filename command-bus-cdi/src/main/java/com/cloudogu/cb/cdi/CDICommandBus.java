@@ -51,7 +51,7 @@ public class CDICommandBus implements CommandBus {
 
   @Override
   public <R> R execute(Command<?> action) {
-    CommandHandler<?, Command<?>> commandHandler = registry.get((Class<? extends Command<?>>) action.getClass());
+    final CommandHandler<?, Command<?>> commandHandler = registry.get((Class<? extends Command<?>>) action.getClass());
     return (R) commandHandler.handle(action);
   }
 }

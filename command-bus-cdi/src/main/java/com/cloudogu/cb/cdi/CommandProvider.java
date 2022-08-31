@@ -47,8 +47,8 @@ public class CommandProvider<H extends CommandHandler<?, ?>> extends HandlerProv
 
   @Override
   public H get() {
-    Bean<H> handlerBean = (Bean<H>) beanManager.getBeans(this.type).iterator().next();
-    CreationalContext<H> context = beanManager.createCreationalContext(handlerBean);
+    final Bean<H> handlerBean = (Bean<H>) beanManager.getBeans(this.type).iterator().next();
+    final CreationalContext<H> context = beanManager.createCreationalContext(handlerBean);
     return (H) beanManager.getReference(handlerBean, this.type, context);
   }
 }

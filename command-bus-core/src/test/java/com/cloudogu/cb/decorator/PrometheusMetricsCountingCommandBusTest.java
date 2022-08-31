@@ -57,7 +57,7 @@ public class PrometheusMetricsCountingCommandBusTest {
 
   @Test
   public void execute() {
-    EchoCommand hello = new EchoCommand("joe");
+    final EchoCommand hello = new EchoCommand("joe");
     decoratedCommandBus.execute(hello);
     verify(commandBus).execute(hello);
     verify(counter).labels(hello.getClass().getSimpleName());

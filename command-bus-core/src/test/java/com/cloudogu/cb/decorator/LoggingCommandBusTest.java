@@ -59,31 +59,31 @@ public class LoggingCommandBusTest {
 
   @Test
   public void execute() {
-    LogbackCapturingAppender capturing = LogbackCapturingAppender.weaveInto(LoggingCommandBus.LOG);
+    final LogbackCapturingAppender capturing = LogbackCapturingAppender.weaveInto(LoggingCommandBus.LOG);
 
-    EchoCommand echoCommand = new EchoCommand("joe");
+    final EchoCommand echoCommand = new EchoCommand("joe");
     decoratedCommandBus.execute(echoCommand);
     verify(commandBus).execute(echoCommand);
 
-    List<String> messages = capturing.getCapturedLogMessages();
+    final List<String> messages = capturing.getCapturedLogMessages();
     assertThat(messages.get(0)).contains("start").contains("EchoCommand");
     assertThat(messages.get(1)).contains("finish").contains("EchoCommand");
   }
 
   @Test
   public void shouldLogFinishEvenWithException() {
-    LogbackCapturingAppender capturing = LogbackCapturingAppender.weaveInto(LoggingCommandBus.LOG);
+    final LogbackCapturingAppender capturing = LogbackCapturingAppender.weaveInto(LoggingCommandBus.LOG);
 
     when(commandBus.execute(any())).thenThrow(new IllegalStateException("failed"));
 
-    EchoCommand echoCommand = new EchoCommand("joe");
+    final EchoCommand echoCommand = new EchoCommand("joe");
     try {
       decoratedCommandBus.execute(echoCommand);
     } catch (IllegalStateException ex) {
       // expected
     }
 
-    List<String> messages = capturing.getCapturedLogMessages();
+    final List<String> messages = capturing.getCapturedLogMessages();
     assertThat(messages.get(0)).contains("start").contains("EchoCommand");
     assertThat(messages.get(1)).contains("finish").contains("EchoCommand");
   }
