@@ -34,7 +34,7 @@ public class TimerTest {
 
   @Test
   public void properToStringFormat() {
-    assertThat(new Timer().toString()).matches("[0-9]+(\\.[0-9]+)?μs");
+    assertThat(new Timer().toString()).matches("\\d+(\\.\\d+)?μs");
   }
 
 }

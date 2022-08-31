@@ -29,7 +29,6 @@ import com.cloudogu.handler.HandlerProvider;
 import javax.enterprise.context.spi.CreationalContext;
 import javax.enterprise.inject.spi.Bean;
 import javax.enterprise.inject.spi.BeanManager;
-import javax.inject.Provider;
 
 /**
  * CommandProvider creates a handler with enabled cdi injection.

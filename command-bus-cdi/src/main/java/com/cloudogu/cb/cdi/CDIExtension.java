@@ -69,7 +69,7 @@ public class CDIExtension implements Extension {
   public void register(@Observes AfterDeploymentValidation event, final BeanManager beanManager) {
     Registry registry = getRegistry(beanManager);
     commandHandlers.forEach((commandClass, handlerClass) ->
-                              registry.register(commandClass, new CommandProvider(beanManager, handlerClass)));
+                              registry.register(commandClass, new CommandProvider<>(beanManager, handlerClass)));
   }
 
   private void register(Class<? extends Command<?>> command, Class<? extends CommandHandler<?, ?>> handler) {

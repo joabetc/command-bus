@@ -28,8 +28,6 @@ import com.cloudogu.cb.CommandHandler;
 import com.cloudogu.handler.HandlerRegistry;
 
 import javax.inject.Singleton;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Registry holds the mapping between a command and its handler.
@@ -37,7 +35,8 @@ import java.util.Map;
 @Singleton
 public class Registry extends HandlerRegistry<Command<?>, CommandHandler<?, Command<?>>, CommandProvider<CommandHandler<?, Command<?>>>> {
 
+  @SuppressWarnings("unchecked")
   void register(Class<? extends Command<?>> commandClass, CommandProvider<?> provider){
-    providerMap.put((Class<? extends Command<?>>) commandClass, (CommandProvider<CommandHandler<?, Command<?>>>) provider);
+    providerMap.put(commandClass, (CommandProvider<CommandHandler<?, Command<?>>>) provider);
   }
 }

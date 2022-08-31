@@ -25,6 +25,7 @@ package com.cloudogu.cb.decorator;
 
 import com.cloudogu.cb.Command;
 import com.cloudogu.cb.CommandBus;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -46,10 +47,17 @@ public class ValidatingCommandBusTest {
 
   private ValidatingCommandBus decoratedCommandBus;
 
+  private ValidatorFactory factory;
+
   @Before
   public void setUpCommandBus() {
-    ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+    factory = Validation.buildDefaultValidatorFactory();
     decoratedCommandBus = new ValidatingCommandBus(commandBus,  factory.getValidator());
+  }
+
+  @After
+  public void tearDown() {
+    factory.close();
   }
 
   @Test(expected = ConstraintViolationException.class)
@@ -67,7 +75,7 @@ public class ValidatingCommandBusTest {
   public static class SampleCommand implements Command<Void> {
 
     @NotNull
-    private String value;
+    private final String value;
 
     public SampleCommand(@NotNull String value) {
       this.value = value;

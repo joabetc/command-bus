@@ -23,8 +23,6 @@
  */
 package com.cloudogu.cb.spring;
 
-import com.cloudogu.cb.Command;
-import com.cloudogu.cb.CommandHandler;
 import com.cloudogu.cb.HelloCommand;
 import com.cloudogu.cb.HelloCommandHandler;
 import org.junit.Test;

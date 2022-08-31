@@ -27,7 +27,6 @@ import com.cloudogu.cb.Command;
 import com.cloudogu.cb.CommandHandler;
 import com.cloudogu.cb.HelloCommand;
 import com.cloudogu.cb.HelloCommandHandler;
-import com.cloudogu.handler.Handler;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -35,6 +34,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.context.ApplicationContext;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -51,8 +51,8 @@ public class RegistryTest {
     String[] commandHandlers = new String[]{"helloCommandHandler"};
     when(applicationContext.getBeanNamesForType(CommandHandler.class)).thenReturn(commandHandlers);
 
-    Class type = HelloCommandHandler.class;
-    when(applicationContext.getType("helloCommandHandler")).thenReturn(type);
+    Class<HelloCommandHandler> type = HelloCommandHandler.class;
+    doReturn(type).when(applicationContext).getType("helloCommandHandler");
 
     when(applicationContext.getBean(HelloCommandHandler.class)).thenReturn(helloCommandHandler);
 

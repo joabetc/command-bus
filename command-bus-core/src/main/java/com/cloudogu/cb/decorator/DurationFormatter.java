@@ -37,7 +37,7 @@ final class DurationFormatter {
   private DurationFormatter(){}
 
   /**
-   * Returns the formatted duration with the abbreviate time unit.
+   * Returns the formatted duration with the abbreviated time unit.
    *
    * @param duration duration
    * @param sourceUnit unit of duration
