@@ -24,6 +24,7 @@
 package com.cloudogu.cb.cdi;
 
 import com.cloudogu.cb.CommandHandler;
+import com.cloudogu.handler.HandlerProvider;
 
 import javax.enterprise.context.spi.CreationalContext;
 import javax.enterprise.inject.spi.Bean;
@@ -36,20 +37,19 @@ import javax.inject.Provider;
  * @param <H> type of handler
  */
 @SuppressWarnings("unchecked")
-public class CommandProvider<H extends CommandHandler<?, ?>> implements Provider<H> {
+public class CommandProvider<H extends CommandHandler<?, ?>> extends HandlerProvider<H> {
 
   private final BeanManager beanManager;
-  private final Class<? extends CommandHandler<?, ?>> handlerClass;
 
-  CommandProvider(BeanManager beanManager, Class<? extends CommandHandler<?, ?>> handlerClass) {
+  CommandProvider(BeanManager beanManager,  Class<H> type) {
+    super(type);
     this.beanManager = beanManager;
-    this.handlerClass = handlerClass;
   }
 
   @Override
   public H get() {
-    Bean<H> handlerBean = (Bean<H>) beanManager.getBeans(handlerClass).iterator().next();
+    Bean<H> handlerBean = (Bean<H>) beanManager.getBeans(this.type).iterator().next();
     CreationalContext<H> context = beanManager.createCreationalContext(handlerBean);
-    return (H) beanManager.getReference(handlerBean, handlerClass, context);
+    return (H) beanManager.getReference(handlerBean, this.type, context);
   }
 }
