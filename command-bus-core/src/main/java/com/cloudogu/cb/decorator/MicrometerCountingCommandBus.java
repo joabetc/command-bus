@@ -25,7 +25,6 @@ package com.cloudogu.cb.decorator;
 
 import com.cloudogu.cb.Command;
 import com.cloudogu.cb.CommandBus;
-import com.cloudogu.handler.CanBeHandled;
 import io.micrometer.core.instrument.Counter;
 
 import java.util.Map;
