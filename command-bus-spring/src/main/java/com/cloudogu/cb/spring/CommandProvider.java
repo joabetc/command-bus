@@ -41,6 +41,7 @@ class CommandProvider<H extends CommandHandler<?, ?>> extends HandlerProvider<H>
     this.applicationContext = applicationContext;
   }
 
+  @Override
   public H get() {
     return applicationContext.getBean(type);
   }
